@@ -1,15 +1,6 @@
-# Load necessary libraries (ensure they are loaded)
-# library(DBI)
-# library(RPostgres)
-# library(glue)
-
-# Assume connect_db() is defined and works
-
 #' Retrieve a Book by ID
 #'
 #' Fetches details for a specific book from `adem.book_recommendations` based on its book ID.
-#' ## NOTE: Verify 'adem.book_recommendations' is the correct table name. ##
-#' ##       If it should be 'adem.books', update the code below.         ##
 #'
 #' @param book_id Integer. The unique ID of the book.
 #'   Must be a single, non-missing, positive integer value.
@@ -18,6 +9,9 @@
 #'   `skill_id` if the book is found. Returns an empty (0-row) `data.frame`
 #'   if the `book_id` is not found. Stops with an error if the query fails
 #'   or `book_id` is invalid.
+#'
+#' @note The function queries the table `adem.book_recommendations`. Verify this table name
+#'   is correct for your database setup.
 #'
 #' @examples
 #' \dontrun{

@@ -1,5 +1,4 @@
 
-install.packages(c("DBI", "RPostgres", "glue"))
 
 #' Connect to the ADEM PostgreSQL Database
 #'

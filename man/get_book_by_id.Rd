@@ -18,11 +18,10 @@ or \code{book_id} is invalid.
 }
 \description{
 Fetches details for a specific book from \code{adem.book_recommendations} based on its book ID.
-\subsection{NOTE: Verify 'adem.book_recommendations' is the correct table name.}{
 }
-
-\subsection{If it should be 'adem.books', update the code below.}{
-}
+\note{
+The function queries the table \code{adem.book_recommendations}. Verify this table name
+is correct for your database setup.
 }
 \examples{
 \dontrun{
