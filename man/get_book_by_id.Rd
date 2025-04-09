@@ -18,7 +18,10 @@ or \code{book_id} is invalid.
 }
 \description{
 Fetches details for a specific book from \code{adem.book_recommendations} based on its book ID.
-\subsection{NOTE: Verify 'adem.books' is the correct table name.}{
+\subsection{NOTE: Verify 'adem.book_recommendations' is the correct table name.}{
+}
+
+\subsection{If it should be 'adem.books', update the code below.}{
 }
 }
 \examples{
@@ -29,6 +32,7 @@ Fetches details for a specific book from \code{adem.book_recommendations} based 
 book_101 <- get_book_by_id(101)
 if (nrow(book_101) > 0) {
   print(book_101)
+  print(book_101$title) # Access columns directly
 } else {
   print("Book 101 not found.")
 }
@@ -42,10 +46,10 @@ try(get_book_by_id("abc"))
 try(get_book_by_id(NA))
 try(get_book_by_id(c(1, 2)))
 try(get_book_by_id(10.5))
-try(get_book_by_id(-5))
+try(get_book_by_id(0)) # Check for positive
 }
 
 }
 \seealso{
-\code{\link[=get_books]{get_books()}}, \code{\link[=connect_db]{connect_db()}} # Assuming get_books exists
+\code{\link[=connect_db]{connect_db()}} # Add get_books() if it exists
 }

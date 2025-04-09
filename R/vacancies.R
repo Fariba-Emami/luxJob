@@ -77,4 +77,3 @@ get_vacancies <- function(skill = NULL, company = NULL, canton = NULL, limit = 1
   })
 }
 
-get_vacancies(skill = "skill_python", canton = "Luxembourg")

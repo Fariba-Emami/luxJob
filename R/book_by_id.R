@@ -1,12 +1,15 @@
-# Load necessary libraries (assuming they are loaded elsewhere or via NAMESPACE)
+# Load necessary libraries (ensure they are loaded)
 # library(DBI)
-# library(RPostgres) # Or your specific driver
+# library(RPostgres)
 # library(glue)
+
+# Assume connect_db() is defined and works
 
 #' Retrieve a Book by ID
 #'
 #' Fetches details for a specific book from `adem.book_recommendations` based on its book ID.
-#' ## NOTE: Verify 'adem.books' is the correct table name. ##
+#' ## NOTE: Verify 'adem.book_recommendations' is the correct table name. ##
+#' ##       If it should be 'adem.books', update the code below.         ##
 #'
 #' @param book_id Integer. The unique ID of the book.
 #'   Must be a single, non-missing, positive integer value.
@@ -24,6 +27,7 @@
 #' book_101 <- get_book_by_id(101)
 #' if (nrow(book_101) > 0) {
 #'   print(book_101)
+#'   print(book_101$title) # Access columns directly
 #' } else {
 #'   print("Book 101 not found.")
 #' }
@@ -37,56 +41,59 @@
 #' try(get_book_by_id(NA))
 #' try(get_book_by_id(c(1, 2)))
 #' try(get_book_by_id(10.5))
-#' try(get_book_by_id(-5))
+#' try(get_book_by_id(0)) # Check for positive
 #' }
 #'
-#' @seealso [get_books()], [connect_db()] # Assuming get_books exists
+#' @seealso [connect_db()] # Add get_books() if it exists
 #'
 #' @importFrom DBI dbDisconnect dbGetQuery Id dbIsValid
 #' @importFrom glue glue glue_sql
 #' @export
 get_book_by_id <- function(book_id) {
-
   # --- Input Validation ---
   if (
     !is.numeric(book_id) ||
     length(book_id) != 1 ||
     is.na(book_id) ||
-    book_id %% 1 != 0 || # Check if it's a whole number
-    book_id <= 0         # Typically IDs are positive integers
+    book_id %% 1 != 0 ||
+    book_id <= 0 # Check for positive integer
   ) {
     stop("'book_id' must be a single, non-missing, positive integer value.", call. = FALSE)
   }
   book_id <- as.integer(book_id) # Ensure integer type
 
+  # Initialize connection
   con <- NULL
+
   tryCatch({
-    # --- Database Connection ---
+    # Establish connection
     con <- connect_db()
+    # Ensure robust disconnection
     on.exit(if (!is.null(con) && DBI::dbIsValid(con)) DBI::dbDisconnect(con), add = TRUE)
 
     # --- Prepare SQL Query ---
-    # !! VERIFY TABLE NAME HERE !!
+    # !! VERIFY TABLE NAME HERE !! ('books' or 'book_recommendation')
     book_table <- DBI::Id(schema = 'adem', table = 'book_recommendations')
+    # --- Use Parameterized Query ($1) ---
     sql <- glue::glue_sql(
       "SELECT book_id, title, author, skill_id
        FROM {`book_table`}
-       WHERE book_id = $1;",
+       WHERE book_id = $1;", # Use placeholder $1
       .con = con
     )
 
-    # --- Execute Query ---
-    result_df <- DBI::dbGetQuery(con, sql, params = list(book_id))
+    # --- Execute Query with params ---
+    result_df <- DBI::dbGetQuery(con, sql, params = list(book_id)) # Pass book_id via params
 
-    # --- Return Result ---
+    # --- Return Result (Standard Data Frame) ---
+    # dbGetQuery returns 0-row data.frame if no match, which is the desired output
     return(result_df)
 
   }, error = function(e) {
-    # --- Error Handling ---
+    # --- Improved Error Handling ---
     error_message <- glue::glue("Failed to retrieve book with book_id = {book_id}. Database error: {conditionMessage(e)}")
     stop(error_message, call. = FALSE)
   })
 }
-# --- Example Call (outside function definition) ---
-book_result <- get_book_by_id(101)
- print(book_result)
+
+

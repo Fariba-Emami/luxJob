@@ -1,8 +1,7 @@
-
-# Ensure necessary libraries are loaded if not already
+# Load necessary libraries (ensure they are loaded)
 # library(DBI)
-# library(RPostgres) # Or your specific backend driver
-
+# library(RPostgres)
+# library(glue)
 # Assume connect_db() is defined elsewhere and connects to the database
 
 #' Retrieve a Skill by its ID
@@ -65,4 +64,4 @@ get_skill_by_id <- function(skill_id) {
 }
 
 
-get_skill_by_id("skill_r")
+

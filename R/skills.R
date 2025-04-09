@@ -72,5 +72,5 @@ get_skills <- function(limit = 100) {
   })
 }
 
-get_skills(limit = 20)
+
 

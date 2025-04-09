@@ -98,4 +98,4 @@ log_search <- function(user_id, query) {
   return(success)
 }
 
-log_search(user_id = 1, query = "machine learning jobs")
+

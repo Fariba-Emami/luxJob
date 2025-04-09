@@ -72,4 +72,4 @@ get_companies <- function(limit = 100) {
   })
 }
 
-get_companies(limit = 50)
+

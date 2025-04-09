@@ -115,7 +115,3 @@ get_learning_tracks <- function(skill_id = NULL, limit = NULL, offset = 0) {
   })
 }
 
-# Example usage
-# Uncomment to run:
-tracks <- get_learning_tracks(skill_id = "skill_r", limit = 20)
-print(tracks)

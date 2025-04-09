@@ -119,7 +119,7 @@ get_vacancy_by_id <- function(vacancy_id) {
   })
 }
 
-get_vacancy_by_id(123456)
+
 
 
 

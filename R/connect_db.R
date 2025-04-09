@@ -1,3 +1,6 @@
+
+install.packages(c("DBI", "RPostgres", "glue"))
+
 #' Connect to the ADEM PostgreSQL Database
 #'
 #' Establishes a connection to the PostgreSQL database using credentials
@@ -30,7 +33,6 @@ connect_db <- function() {
   )
   return(con)
 }
-
 
 
 
